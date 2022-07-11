@@ -5,11 +5,11 @@ export default {
     run: async (client, message) => {
         if (message.author.bot) return
         
-        let prefix = client.prefix.map(
-            prefix => typeof(prefix) === 'function'
-            ? prefix(message)
+        let prefix = (await Promise.all(client.prefix.map(
+            async prefix => typeof(prefix) === 'function'
+            ? await prefix(message)
             : prefix
-        ).find((prefix) =>
+        ))).find((prefix) =>
             typeof(prefix) === 'string'
             ? message.content.toLowerCase().startsWith(prefix)
             : prefix?.test(message.content)
