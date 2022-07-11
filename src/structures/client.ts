@@ -1,6 +1,8 @@
-import { Collection, ColorResolvable, ClientOptions as DClientOptions, Client as DClient } from 'discord.js'
+import { Collection, ColorResolvable, ClientOptions as DClientOptions, Client as DClient, Message } from 'discord.js'
 import { loadCommands, loadEvents, EventData, ChatCommand, mainRoot, libRoot } from '..'
 import { join } from 'path'
+
+export type Prefix = string | RegExp | ((message: Message) => string | RegExp | undefined)
 
 declare module 'discord.js' {
     interface ClientEvents {
@@ -8,7 +10,7 @@ declare module 'discord.js' {
     }
     
     interface Client {
-        prefix: (string | RegExp)[]
+        prefix: (Prefix)[]
         color?: ColorResolvable
         owners: string[]
         testGuilds?: string[]
@@ -24,7 +26,7 @@ declare module 'discord.js' {
 }
 
 export interface ClientOptions extends DClientOptions {
-    prefix?: string | RegExp | (string | RegExp)[]
+    prefix?: Prefix | Prefix[]
     color?: ColorResolvable
     owners?: string[]
     testGuilds?: string[]
