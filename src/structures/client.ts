@@ -41,7 +41,11 @@ export class Client extends DClient {
     constructor(options: ClientOptions) {
         super(options)
 
-        this.prefix = options.prefix instanceof Array ? options.prefix ?? ['!'] : [options.prefix ?? '!']
+        this.prefix = options.prefix
+            ? options.prefix instanceof Array
+                ? options.prefix
+                : [options.prefix]
+            : ['!']
         this.color = options.color
             
         this.owners = options.owners ?? []
