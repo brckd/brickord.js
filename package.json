@@ -1,6 +1,6 @@
 {
   "name": "brickord.js",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "a discord.js command framework",
   "main": "lib/index.js",
   "keywords": ["discord", "bot", "typescript", "ts"],
@@ -9,7 +9,7 @@
     "type": "git",
     "url": "https://github.com/Brycked/brickord.js"
   },
-  
+
   "dependencies": {
     "@discordjs/builders": "^0.15.0",
     "discord.js": "^13.8.1"
