@@ -1,8 +1,9 @@
-import { Collection, ColorResolvable, ClientOptions as DClientOptions, Client as DClient, Message, Awaitable } from 'discord.js'
+import { Collection, ColorResolvable, ClientOptions as DClientOptions, Client as DClient, Message, Awaitable, CommandInteraction } from 'discord.js'
 import { loadCommands, loadEvents, EventData, ChatCommand, mainRoot, libRoot } from '..'
 import { join } from 'path'
 
-export type Prefix = string | RegExp | ((message: Message) => Awaitable<string | RegExp | undefined>)
+export type Prefix = string | RegExp | ((interaction: Message | CommandInteraction) => Awaitable<string | RegExp | undefined>)
+export type ResolvedPrefix = string | RegExp
 
 declare module 'discord.js' {
     interface ClientEvents {
@@ -10,7 +11,7 @@ declare module 'discord.js' {
     }
     
     interface Client {
-        prefix: (Prefix)[]
+        prefix: (Prefix)[] & { resolve: (interaction: Message | CommandInteraction) => Promise<ResolvedPrefix[]>}
         color?: ColorResolvable
         owners: string[]
         testGuilds?: string[]
@@ -36,16 +37,25 @@ export interface ClientOptions extends DClientOptions {
     buttonsDir?: string
 }
 
-
 export class Client extends DClient {
     constructor(options: ClientOptions) {
         super(options)
 
-        this.prefix = options.prefix
+        this.prefix = Object.assign(
+            options.prefix
             ? options.prefix instanceof Array
                 ? options.prefix
                 : [options.prefix]
-            : ['!']
+            : ['!'],
+            {
+                resolve: async (interaction: Message | CommandInteraction) => (await Promise.all(this.prefix.map(
+                    async prefix => typeof(prefix) === 'function'
+                    ? await prefix(interaction)
+                    : prefix
+                ))).filter(p => typeof(p) !== 'undefined') as ResolvedPrefix[]
+            }
+        )
+        
         this.color = options.color
             
         this.owners = options.owners ?? []
