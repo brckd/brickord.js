@@ -16,6 +16,10 @@ To use Brickord, you need to install `brickord.js` ontop of `discord.js` and `@d
 ```bash
 npm i discord.js @discordjs/builders brickord.js
 ```
+You can alternatively install the latest version from the git repository
+```bash
+npm i discord.js @discordjs/builders git+https://github.com/Brycked/brickord.js.git
+```
 
 ## Setting up the bot
 Setting up the bot is quite similar to how you would do in discord.js.
