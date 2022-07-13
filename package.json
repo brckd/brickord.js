@@ -4,6 +4,7 @@
   "description": "a discord.js command framework",
   "main": "lib/index.js",
   "keywords": ["discord", "bot", "typescript", "ts"],
+  "author": "Bricked",
 
   "repository": {
     "type": "git",
