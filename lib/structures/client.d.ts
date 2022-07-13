@@ -32,4 +32,5 @@ export interface ClientOptions extends DClientOptions {
 }
 export declare class Client extends DClient {
     constructor(options: ClientOptions);
+    login(token?: string | undefined): Promise<string>;
 }
