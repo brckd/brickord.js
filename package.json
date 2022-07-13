@@ -1,7 +1,7 @@
 {
   "name": "brickord.js",
   "version": "0.2.3",
-  "description": "a discord.js command framework",
+  "description": "A discord.js command framework",
   "main": "lib/index.js",
   "keywords": ["discord", "bot", "typescript", "ts"],
   "author": "Bricked",
