@@ -32,5 +32,4 @@ export interface BrickordClientOptions extends ClientOptions {
 }
 export declare class BrickordClient extends Client {
     constructor(options: BrickordClientOptions);
-    login(token?: string | undefined): Promise<string>;
 }

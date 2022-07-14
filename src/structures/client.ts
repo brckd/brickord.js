@@ -1,5 +1,5 @@
 import { Collection, ColorResolvable, ClientOptions, Client, Message, Awaitable, CommandInteraction } from 'discord.js'
-import { loadCommands, loadEvents, EventData, ChatCommand, mainRoot, libRoot, InvalidToken } from '..'
+import { loadCommands, loadEvents, EventData, ChatCommand, mainRoot, libRoot } from '..'
 import { join } from 'path'
 
 export type Prefix = string | RegExp | ((interaction: Message | CommandInteraction) => Awaitable<string | RegExp | undefined>)
@@ -72,16 +72,5 @@ export class BrickordClient extends Client {
         this.loadCommands = (dir) => loadCommands(this, dir)
         this.loadCommands()
         this.loadCommands(join(libRoot, 'commands'))
-    }
-
-    public async login(token?: string | undefined): Promise<string> {
-        try {
-            return await super.login(token)
-        }
-        catch (err) {
-            if (err instanceof Error && err.name == 'Error [TOKEN_INVALID]')
-                throw new InvalidToken()
-        }
-        return ''
     }
 }
