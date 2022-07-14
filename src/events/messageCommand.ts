@@ -55,7 +55,9 @@ export default {
                 return arg
             }))
 
-            command.run(message, ...args)
+            const context = Object.assign(message, { command })
+
+            command.run(context, ...args)
         }
         catch (err) {
             if(err instanceof CommandError)

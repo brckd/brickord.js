@@ -32,7 +32,9 @@ export default {
                     }
                 }) as CommandOption[]
             }
-            command.run(interaction, ...args)
+
+            const context = Object.assign(interaction, { command })
+            command.run(context, ...args)
         }
         catch (err) {
             if(err instanceof CommandError)

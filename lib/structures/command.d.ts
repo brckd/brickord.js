@@ -4,7 +4,9 @@ export declare const commandOptions: readonly ["Subcommand", "Subcommand Group",
 export declare type CommandOption = string | number | boolean | User | GuildMember | Channel | Role | MessageAttachment | undefined;
 export interface ChatCommandData {
     data: Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>;
-    run: (interaction: CommandInteraction | Message, ...args: CommandOption[]) => Awaitable<void>;
+    run: (context: (CommandInteraction | Message) & {
+        command: ChatCommand;
+    }, ...args: CommandOption[]) => Awaitable<void>;
 }
 export interface ChatCommand {
     data: ReturnType<typeof SlashCommandBuilder.prototype.toJSON>;
