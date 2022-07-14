@@ -1,5 +1,6 @@
-import { Interaction } from "discord.js";
-import { EventData, CommandOption, CommandNotFound, CommandError } from "..";
+import { CommandInteraction, Interaction } from "discord.js";
+import { EventData, ChatCommand, CommandOption, CommandNotFound, CommandError } from "..";
+import { InteractionReplyOptions, ReplyMessageOptions, Message } from 'discord.js'
 
 export default {
     name: 'interactionCreate',
@@ -33,7 +34,11 @@ export default {
                 }) as CommandOption[]
             }
 
-            const context = Object.assign(interaction, { command })
+            const context = Object.assign(interaction, {
+                commandData: command,
+                reply: sendDefaultMessage(interaction.reply, interaction, command)
+            })
+
             command.run(context, ...args)
         }
         catch (err) {
@@ -44,3 +49,24 @@ export default {
         }
     }
 } as EventData<'interactionCreate'>
+
+export function sendDefaultMessage(func: CommandInteraction['reply'], object: Object, command: ChatCommand) {
+    function send(options: Parameters<CommandInteraction['reply']>[0]){
+        if (typeof(options) === 'string')
+            options = {
+                embeds: [{
+                    description: options
+                }]
+            }
+        
+        if ('embeds' in options && options.embeds)
+            options.embeds = options.embeds.map(e => ({
+                title: command.data.name.replace(/\b\w/g, c => c.toUpperCase()),
+                color: 'BLURPLE',
+                ...e
+            }) as Exclude<ReplyMessageOptions['embeds'], undefined>[number])
+            
+        return func.bind(object)(options)
+    }
+    return send
+}

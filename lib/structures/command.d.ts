@@ -5,7 +5,7 @@ export declare type CommandOption = string | number | boolean | User | GuildMemb
 export interface ChatCommandData {
     data: Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>;
     run: (context: (CommandInteraction | Message) & {
-        command: ChatCommand;
+        commandData: ChatCommand;
     }, ...args: CommandOption[]) => Awaitable<void>;
 }
 export interface ChatCommand {

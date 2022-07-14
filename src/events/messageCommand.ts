@@ -1,4 +1,5 @@
-import { EventData, CommandNotFound, CommandError, TooManyArguments, AttachmentNotFound, getBoolean, getMember, getChannel, getRole, getMentionable, getInt, getNumber, MissingRequiredArgument } from '..'
+import { EventData, ChatCommand, CommandNotFound, CommandError, TooManyArguments, AttachmentNotFound, getBoolean, getMember, getChannel, getRole, getMentionable, getInt, getNumber, MissingRequiredArgument } from '..'
+import { MessagePayload, ReplyMessageOptions, Message, CommandInteraction } from 'discord.js'
 
 export default {
     name: 'messageCreate',
@@ -55,7 +56,10 @@ export default {
                 return arg
             }))
 
-            const context = Object.assign(message, { command })
+            const context = Object.assign(message, {
+                commandData: command,
+                reply: sendDefaultMessage(message.reply, message, command)
+            })
 
             command.run(context, ...args)
         }
@@ -67,3 +71,24 @@ export default {
         }
     }
 } as EventData<'messageCreate'>
+
+export function sendDefaultMessage(func: Message['reply'], object: Object, command: ChatCommand) {
+    function send(options: Parameters<Message['reply']>[0]){
+        if (typeof(options) === 'string')
+            options = {
+                embeds: [{
+                    description: options
+                }]
+            }
+        
+        if ('embeds' in options && options.embeds)
+            options.embeds = options.embeds.map(e => ({
+                title: command.data.name.replace(/\b\w/g, c => c.toUpperCase()),
+                color: 'BLURPLE',
+                ...e
+            }) as Exclude<ReplyMessageOptions['embeds'], undefined>[number])
+            
+        return func.bind(object)(options)
+    }
+    return send
+}
