@@ -1,4 +1,4 @@
-import { Collection, ColorResolvable, ClientOptions as DClientOptions, Client as DClient, Message, Awaitable, CommandInteraction } from 'discord.js';
+import { Collection, ColorResolvable, ClientOptions, Client, Message, Awaitable, CommandInteraction } from 'discord.js';
 import { EventData, ChatCommand } from '..';
 export declare type Prefix = string | RegExp | ((interaction: Message | CommandInteraction) => Awaitable<string | RegExp | undefined>);
 export declare type ResolvedPrefix = string | RegExp;
@@ -21,7 +21,7 @@ declare module 'discord.js' {
         loadCommands: (dir?: string) => void;
     }
 }
-export interface ClientOptions extends DClientOptions {
+export interface BrickordClientOptions extends ClientOptions {
     prefix?: Prefix | Prefix[];
     color?: ColorResolvable;
     owners?: string[];
@@ -30,7 +30,7 @@ export interface ClientOptions extends DClientOptions {
     commandsDir?: string;
     buttonsDir?: string;
 }
-export declare class Client extends DClient {
-    constructor(options: ClientOptions);
+export declare class BrickordClient extends Client {
+    constructor(options: BrickordClientOptions);
     login(token?: string | undefined): Promise<string>;
 }

@@ -1,7 +1,7 @@
-import { Client, type ChatCommandData, type ChatCommand, getAllFiles } from '..'
+import { BrickordClient, type ChatCommandData, type ChatCommand, getAllFiles } from '..'
 import { basename } from 'path'
 
-export function loadCommands(client: Client, dir?: string) {
+export function loadCommands(client: BrickordClient, dir?: string) {
     getAllFiles(dir ?? client.commandsDir).forEach( file => {
         delete require.cache[require.resolve(file)]
         

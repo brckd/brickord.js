@@ -1,2 +1,2 @@
-import { Client } from '..';
-export declare function loadCommands(client: Client, dir?: string): void;
+import { BrickordClient } from '..';
+export declare function loadCommands(client: BrickordClient, dir?: string): void;

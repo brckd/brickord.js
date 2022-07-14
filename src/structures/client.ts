@@ -1,4 +1,4 @@
-import { Collection, ColorResolvable, ClientOptions as DClientOptions, Client as DClient, Message, Awaitable, CommandInteraction } from 'discord.js'
+import { Collection, ColorResolvable, ClientOptions, Client, Message, Awaitable, CommandInteraction } from 'discord.js'
 import { loadCommands, loadEvents, EventData, ChatCommand, mainRoot, libRoot, InvalidToken } from '..'
 import { join } from 'path'
 
@@ -26,7 +26,7 @@ declare module 'discord.js' {
     }
 }
 
-export interface ClientOptions extends DClientOptions {
+export interface BrickordClientOptions extends ClientOptions {
     prefix?: Prefix | Prefix[]
     color?: ColorResolvable
     owners?: string[]
@@ -37,8 +37,8 @@ export interface ClientOptions extends DClientOptions {
     buttonsDir?: string
 }
 
-export class Client extends DClient {
-    constructor(options: ClientOptions) {
+export class BrickordClient extends Client {
+    constructor(options: BrickordClientOptions) {
         super(options)
 
         this.prefix = Object.assign(

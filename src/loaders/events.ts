@@ -1,8 +1,8 @@
-import { Client, type EventData, getFiles } from '..'
+import { BrickordClient, type EventData, getFiles } from '..'
 import { ClientEvents } from 'discord.js'
 import { basename } from 'path'
 
-export function loadEvents(client: Client, dir?: string) {
+export function loadEvents(client: BrickordClient, dir?: string) {
     getFiles(dir ?? client.eventsDir).forEach( file => {
         delete require.cache[require.resolve(file)]
 
